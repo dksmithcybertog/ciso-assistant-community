@@ -125,6 +125,18 @@ const APPLIED_CONTROL_STATUS_FILTER: ListViewFilterConfig = {
 	}
 };
 
+const TASK_STATUS_FILTER: ListViewFilterConfig = {
+	component: AutocompleteSelect,
+	props: {
+		optionsEndpoint: 'task-nodes/status',
+		optionsLabelField: 'label',
+		optionsValueField: 'value',
+		label: 'status',
+		browserCache: 'force-cache',
+		multiple: true
+	}
+};
+
 const TREATMENT_FILTER: ListViewFilterConfig = {
 	component: AutocompleteSelect,
 	props: {
@@ -688,10 +700,11 @@ export const listViewFields = {
 		breadcrumb_link_disabled: true
 	},
 	evidences: {
-		head: ['name', 'file', 'size', 'description', 'folder'],
-		body: ['name', 'attachment', 'size', 'description', 'folder'],
+		head: ['name', 'file', 'size', 'description', 'folder', 'labels'],
+		body: ['name', 'attachment', 'size', 'description', 'folder', 'filtering_labels'],
 		filters: {
-			folder: DOMAIN_FILTER
+			folder: DOMAIN_FILTER,
+			filtering_labels: LABELS_FILTER
 		}
 	},
 	requirements: {
@@ -851,7 +864,7 @@ export const listViewFields = {
 			'risk_origin',
 			'target_objective',
 			'stakeholders',
-			'attackPath'
+			'description'
 		],
 		body: [
 			'is_selected',
@@ -904,6 +917,17 @@ export const listViewFields = {
 	'timeline-entries': {
 		head: ['entry_type', 'entry', 'author', 'created_at', 'updated_at', 'timestamp'],
 		body: ['entry_type', 'entry', 'author', 'created_at', 'updated_at', 'timestamp']
+	},
+	'task-templates': {
+		head: ['name', 'description', 'assigned_to', 'lastOccurrenceStatus', 'nextOccurrence'],
+		body: ['name', 'description', 'assigned_to', 'last_occurrence_status', 'next_occurrence']
+	},
+	'task-nodes': {
+		head: ['due_date', 'status', 'evidences'],
+		body: ['due_date', 'status', 'evidences'],
+		filters: {
+			status: TASK_STATUS_FILTER
+		}
 	},
 	extra: {
 		filters: {
